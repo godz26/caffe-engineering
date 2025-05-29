@@ -69,7 +69,7 @@ export const Contact = () => {
         payload.append("file", selectedFile);
       }
 
-      const response = await fetch("http://localhost:3001/send", {
+      const response = await fetch("/api/sendEmail", {
         method: "POST",
         body: payload,
       });

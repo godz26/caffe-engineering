@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { FaXmark, FaBars } from "react-icons/fa6";
 import { Link } from "react-scroll";
+import logo from "../../../assets/logo.png";
 
 export const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -16,11 +17,7 @@ export const Navbar = () => {
       className="flex justify-between items-center w-full bg-white text-black font-bold text-xl"
     >
       <div className="flex items-center ml-14 duration-500 hover:text-orange-700 cursor-pointer">
-        <img
-          className="w-20 mr-2"
-          src="../../../assets/logo.png"
-          alt="caffe logo"
-        />
+        <img className="w-20 mr-2" src={logo} alt="caffe logo" />
         <p>Caffe Engineering</p>
       </div>
       <div>
