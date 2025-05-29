@@ -52,7 +52,7 @@ export const Contact = () => {
     setStatus(null);
     setError(null);
 
-    // Add validation for required fields
+    // Validation
     if (!formData.name || !formData.email || !formData.jobRole) {
       setError("Please fill all required fields");
       setIsSubmitting(false);
@@ -60,21 +60,19 @@ export const Contact = () => {
     }
 
     try {
-      const payload = new FormData();
-      payload.append("name", formData.name);
-      payload.append("email", formData.email);
-      payload.append("gender", gender);
-      payload.append("jobRole", formData.jobRole);
+      const formDataToSend = new FormData();
+      formDataToSend.append("name", formData.name);
+      formDataToSend.append("email", formData.email);
+      formDataToSend.append("gender", gender);
+      formDataToSend.append("jobRole", formData.jobRole);
+
       if (selectedFile) {
-        payload.append("file", selectedFile);
+        formDataToSend.append("file", selectedFile);
       }
 
       const response = await fetch("/api/sendEmail", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(payload),
+        body: formDataToSend, // Don't set Content-Type header - browser will set it automatically
       });
 
       const result = await response.json();
@@ -140,6 +138,7 @@ export const Contact = () => {
             whileInView="visible"
             variants={zoomInVariants}
             className="flex flex-col justify-center items-start gap-4 w-full lg:mt-28"
+            encType="multipart/form-data"
           >
             <input
               type="text"
@@ -212,8 +211,13 @@ export const Contact = () => {
             >
               {isSubmitting ? "Submitting..." : "Submit"}
             </motion.button>
-            {status === "success" && <p>✅ Application sent successfully!</p>}
-            {status === "error" && <p>❌ {error}</p>}
+            {status === "success" && (
+              <p className="text-green-600">
+                ✅ Application sent successfully!
+              </p>
+            )}
+            {status === "error" && <p className="text-red-600">❌ {error}</p>}
+            {error && !status && <p className="text-red-600">⚠️ {error}</p>}
           </motion.form>
         </motion.div>
       </div>
