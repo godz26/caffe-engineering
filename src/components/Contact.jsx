@@ -49,44 +49,34 @@ export const Contact = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsSubmitting(true);
-    setStatus(null);
     setError(null);
 
-    // Validation
-    if (!formData.name || !formData.email || !formData.jobRole) {
-      setError("Please fill all required fields");
-      setIsSubmitting(false);
-      return;
-    }
-
     try {
-      const formDataToSend = new FormData();
-      formDataToSend.append("name", formData.name);
-      formDataToSend.append("email", formData.email);
-      formDataToSend.append("gender", gender);
-      formDataToSend.append("jobRole", formData.jobRole);
-
-      if (selectedFile) {
-        formDataToSend.append("file", selectedFile);
-      }
+      const formData = new FormData();
+      formData.append("name", formData.name);
+      formData.append("email", formData.email);
+      formData.append("gender", gender);
+      formData.append("jobRole", formData.jobRole);
+      if (selectedFile) formData.append("file", selectedFile);
 
       const response = await fetch("/api/sendEmail", {
         method: "POST",
-        body: formDataToSend, // Don't set Content-Type header - browser will set it automatically
+        body: formData,
+        // Note: Don't set Content-Type header - FormData handles it
       });
 
-      const result = await response.json();
+      const data = await response.json();
 
-      if (!response.ok || result.status !== "success") {
-        throw new Error(result.message || "Submission failed");
+      if (!response.ok) {
+        throw new Error(data.message || "Failed to submit");
       }
 
+      // Success case
       setStatus("success");
-      setFormData({ name: "", email: "", jobRole: "" });
-      setSelectedFile(null);
-    } catch (err) {
-      setError(err.message);
-      setStatus("error");
+      resetForm();
+    } catch (error) {
+      setError(error.message || "Submission failed");
+      console.error("Error:", error);
     } finally {
       setIsSubmitting(false);
     }
