@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { FaXmark, FaBars } from "react-icons/fa6";
 import { Link } from "react-scroll";
-import logo from "../../../assets/logo.png";
+import logo from "../../assets/logo.png";
 
 export const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
