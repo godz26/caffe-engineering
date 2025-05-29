@@ -71,7 +71,10 @@ export const Contact = () => {
 
       const response = await fetch("/api/sendEmail", {
         method: "POST",
-        body: payload,
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(payload),
       });
 
       const result = await response.json();
