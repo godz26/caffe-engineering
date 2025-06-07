@@ -3,12 +3,9 @@ import { google } from "googleapis";
 import multer from "multer";
 import nextConnect from "next-connect"; // or any middleware handler
 
-const CLIENT_ID =
-  "996422693850-f3pvrhtq24mti3km9ptraf5evqqrda5k.apps.googleusercontent.com";
-const CLIENT_SECRET = "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";
-const REDIRECT_URI = "https://developers.google.com/oauthplayground";
-const REFRESH_TOKEN =
-  "1//04eQev2jWOKY-CgYIARAAGAQSNwF-L9IrQq6Sa6pSoCdF__lfT0POLv8lgskMm0an1ihTP2N7mRfGX0lX9kcJDRro5x-GOb1PGfU";
+const CLIENT_ID = process.env.CLIENT_ID;
+const CLIENT_SECRET = process.env.CLIENT_SECRET;
+const REFRESH_TOKEN = process.env.REFRESH_TOKEN;
 
 const oAuth2Client = new google.auth.OAuth2(
   CLIENT_ID,
@@ -38,7 +35,7 @@ handler.post(async (req, res) => {
       service: "gmail",
       auth: {
         type: "OAuth2",
-        user: "gestardo134@gmail.com",
+        user: process.env.EMAIL_ADDRESS,
         clientId: CLIENT_ID,
         clientSecret: CLIENT_SECRET,
         refreshToken: REFRESH_TOKEN,
@@ -47,7 +44,7 @@ handler.post(async (req, res) => {
     });
 
     const mailOptions = {
-      from: `"Caffe Engineering" <gestardo134@gmail.com>`,
+      from: `Caffe Engineering <${process.env.EMAIL_ADDRESS}>`,
       to: "gestardo143@gmail.com",
       subject: `New Job Application from ${name}`,
       html: `
