@@ -46,35 +46,46 @@ export const Contact = () => {
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
+  const resetForm = () => {
+    setFormData({ name: "", email: "", jobRole: "" });
+    setGender("Male");
+    setSelectedFile(null);
+    setError(null);
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsSubmitting(true);
     setError(null);
 
     try {
-      const formData = new FormData();
-      formData.append("name", formData.name);
-      formData.append("email", formData.email);
-      formData.append("gender", gender);
-      formData.append("jobRole", formData.jobRole);
-      if (selectedFile) formData.append("file", selectedFile);
+      const submissionData = new FormData();
+      submissionData.append("name", formData.name);
+      submissionData.append("email", formData.email);
+      submissionData.append("gender", gender);
+      submissionData.append("jobRole", formData.jobRole);
+      if (selectedFile) submissionData.append("file", selectedFile);
 
       const response = await fetch("/api/sendEmail", {
         method: "POST",
-        body: formData,
-        // Note: Don't set Content-Type header - FormData handles it
-      });
+        body: submissionData,
+      });      
 
-      const data = await response.json();
-
-      if (!response.ok) {
-        throw new Error(data.message || "Failed to submit");
+      let data = null;
+      try {
+        data = await response.json();
+      } catch {
+        throw new Error("Server returned invalid JSON");
       }
 
-      // Success case
+      if (!response.ok) {
+        throw new Error(data?.error || data?.message || "Failed to submit");
+      }
+
       setStatus("success");
       resetForm();
     } catch (error) {
+      setStatus("error");
       setError(error.message || "Submission failed");
       console.error("Error:", error);
     } finally {

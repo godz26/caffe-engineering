@@ -4,19 +4,20 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "concurrently \"npm run dev-client\" \"npm run dev-server\"",
-    "dev-client": "vite",
-    "dev-server": "node --env-file=.env server.js",
+    "dev": "vite",
     "build": "vite build",
-    "start": "node server.js"
+    "start": "vite preview"
   },
   "dependencies": {
     "@emailjs/browser": "^4.4.1",
     "cors": "^2.8.5",
     "dotenv": "^16.5.0",
     "express": "^5.1.0",
+    "formidable": "^3.5.4",
     "framer-motion": "^12.12.1",
-    "multer": "^2.0.0",
+    "googleapis": "^150.0.1",
+    "multer": "^2.0.1",
+    "next-connect": "^1.0.0",
     "nodemailer": "^7.0.3",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
@@ -35,6 +36,7 @@
     "eslint-plugin-react-hooks": "^5.2.0",
     "eslint-plugin-react-refresh": "^0.4.19",
     "globals": "^16.0.0",
+    "nodemon": "^3.1.10",
     "postcss": "^8.5.3",
     "prettier": "^3.5.3",
     "prettier-plugin-tailwindcss": "^0.6.11",
@@ -43,5 +45,18 @@
   },
   "engines": {
     "node": "18.x"
-  }
+  },
+  "description": "This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.",
+  "main": "eslint.config.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/godz26/caffe-engineering.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/godz26/caffe-engineering/issues"
+  },
+  "homepage": "https://github.com/godz26/caffe-engineering#readme"
 }
